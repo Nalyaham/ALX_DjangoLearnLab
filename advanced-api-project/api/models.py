@@ -1,4 +1,5 @@
 from django.db import models
+from rest_framework import filters
 
 # Create your models here.
 #This model defines the structure of the database for the Author table
