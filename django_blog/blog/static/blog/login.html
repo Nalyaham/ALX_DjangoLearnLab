@@ -1,0 +1,17 @@
+login.html{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Login</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if form.errors %}
+        <ul>
+            {% for field, error in form.errors.items %}
+                <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+        </ul>
+    <button type="submit">Login</button>
+  </form>
+  <p>Don't have an account? <a href="{% url '"{% url 'register' %}">Register</a></p>
+{% endblock %}
