@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Posts</h1>
+  <ul>
+    {% for post in post_list %}
+      <li>
+	{{ post.title }}
+        <p>{{ post.content|truncatewords:20 }}</p>
+      </li>
+    {% empty %}
+      <p>No posts yet.</p>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Post Edit</h1>
+<form method = “post”>
+	{%csrf_token%}
+	{{ PostForm.as_p }}
+</form>
+{% endblock %}

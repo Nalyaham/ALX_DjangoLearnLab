@@ -6,6 +6,11 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
+from django.views.generic import DeleteView, UpdateView, DetailView, CreateView, ListView
+from .models import Post
+from .forms import PostForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.urls import reverse_lazy
 
 # Create your views here.
 def RegisterView(request):
@@ -38,3 +43,41 @@ def UserProfile(request):
         form = ProfileForm(instance=profile) 
         
     return render(request, 'profile.html', {'form': form})
+
+class DeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    template_name = 'delete_post.html'
+    success_url = reverse_lazy('movie_reviews')
+
+    def test_func(self):
+        review = self.get_object()
+        return review.user == self.request.user
+    
+class UpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    form_class = PostForm
+    template_name = 'update_post.html'
+
+    def test_func(self):
+        review = self.get_object()
+        return review.user == self.request.user
+    
+class DetailView(DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'review'
+
+class CreateView(CreateView):
+    model =Post
+    form_class = PostForm
+    template_name = 'create_post.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    
+
+class ListView(ListView):
+    model = Post
+    template_name = 'posts.html'
+    context_object_name = 'reviews'
