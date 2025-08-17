@@ -12,9 +12,9 @@ urlpatterns = [
 	path('register/', RegisterView.as_view(), name='register'), 
 	path('profile/', UserProfile.as_view, name = 'profile'),
     path('posts/', ListView.as_view(), name = 'posts'),
-path('posts/<int:pk>/', DetailView.as_view(), name = 'detail'),
-path('posts/new/', CreateView.as_view(), name = 'create'),
-path('/posts/<int:pk>/edit/', UpdateView.as_view(), name = 'update'),
-path('posts/<int:pk>/delete/', DeleteView.as_view(), name = 'delete'),
+path('post/<int:pk>/', DetailView.as_view(), name = 'detail'),
+path('post/new/', CreateView.as_view(), name = 'create'),
+path('post/<int:pk>/update/', UpdateView.as_view(), name = 'update'),
+path('post/<int:pk>/delete/', DeleteView.as_view(), name = 'delete'),
 
 ]
