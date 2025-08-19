@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Profile, Post, comment
+from .models import Profile, Post, Comment
 from django import forms 
 
 #Create your forms here
@@ -31,5 +31,5 @@ class PostForm(forms.ModelForm):
     
 class CommentForm(forms.ModelForm):
 	class Meta:
-		model = comment
+		model = Comment
 		fields = ['post', 'author', 'content', 'created_at', 'updated_at' ]
