@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 from django.contrib import admin
 from blog.views import LoginView, LogoutView, RegisterView, UserProfile, DeleteView, UpdateView, DetailView, CreateView, ListView
-
+from blog.views import CommentDeleteView, CommentUpdateView, CommentDetailView, CommentCreateView, CommentListView
 #Create patterns here 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,5 +16,9 @@ path('post/<int:pk>/', DetailView.as_view(), name = 'detail'),
 path('post/new/', CreateView.as_view(), name = 'create'),
 path('post/<int:pk>/update/', UpdateView.as_view(), name = 'update'),
 path('post/<int:pk>/delete/', DeleteView.as_view(), name = 'delete'),
-
+path('posts/comment', CommentListView.as_view(), name = 'posts'),
+path('comment/<int:pk>/', CommentDetailView.as_view(), name = 'detai'),
+path('posts/<int:pk>/comment/new/', CommentCreateView.as_view(), name = 'create'),
+path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name = 'update'),
+path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name = 'delete')
 ]
