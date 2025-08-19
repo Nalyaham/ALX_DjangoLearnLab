@@ -32,4 +32,4 @@ class PostForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
 	class Meta:
 		model = comment
-		fields = ['post', 'author', 'content', 'created_date', 'updated_date' ]
+		fields = ['post', 'author', 'content', 'created_at', 'updated_at' ]
