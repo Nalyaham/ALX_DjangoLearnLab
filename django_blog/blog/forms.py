@@ -1,9 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Profile
+from .models import Profile, Post, comment
 from django import forms 
-from .models import Post
 
 #Create your forms here
 class ProfileForm(forms.ModelForm):
@@ -29,3 +28,8 @@ class PostForm(forms.ModelForm):
         if commit:
             review.save()
         return review
+    
+class CommentForm(forms.ModelForm):
+	class Meta:
+		model = comment
+		fields = ['post', 'author', 'content', 'created_date', 'updated_date' ]

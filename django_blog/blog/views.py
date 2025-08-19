@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.views.generic import DeleteView, UpdateView, DetailView, CreateView, ListView
-from .models import Post
-from .forms import PostForm
+from .models import Post, comment
+from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 
@@ -80,4 +80,38 @@ class CreateView(CreateView):
 class ListView(ListView):
     model = Post
     template_name = 'posts.html'
+    context_object_name = 'reviews'
+
+class UpdateComment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = comment
+    form_class = CommentForm
+    template_name = 'update_comments.html'
+
+    def test_func(self):
+        review = self.get_object()
+        return review.user == self.request.user
+
+
+class DetailComment(DetailView):
+    model = comment
+    template_name = 'detail_comments.html'
+    
+    def get_context_data (self, **kwaargs): #this overides get_context_data
+        context = super().get_context_data(**kwaargs)
+        context['comment_form'] = CommentForm()
+        context['comments']= self.object.comments.all()
+        return context 
+
+class CreateComment(CreateView):
+    model =comment
+    form_class = CommentForm
+    template_name = 'create_comments.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class ListComment(ListView):
+    model = comment
+    template_name = 'list_comments.html'
     context_object_name = 'reviews'

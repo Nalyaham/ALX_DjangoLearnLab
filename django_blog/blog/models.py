@@ -12,3 +12,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     email = models.CharField(max_length=200)
+    
+class comment(models.Model):
+	post = models.ForeignKey(Post, on_delete=models.CASCADE)
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	content = models.TextField()
+	created_date = models.DateTimeField(auto_now_add=True)
+	updated_date = models.DateTimeField(auto_now=True)
