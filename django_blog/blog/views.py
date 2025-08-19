@@ -44,7 +44,7 @@ def UserProfile(request):
         
     return render(request, 'profile.html', {'form': form})
 
-class DeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     template_name = 'delete_post.html'
     success_url = reverse_lazy('movie_reviews')
@@ -53,7 +53,7 @@ class DeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         review = self.get_object()
         return review.user == self.request.user
     
-class UpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'update_post.html'
@@ -62,12 +62,12 @@ class UpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         review = self.get_object()
         return review.user == self.request.user
     
-class DetailView(DetailView):
+class CommentDetailView(DetailView):
     model = Post
     template_name = 'post_detail.html'
     context_object_name = 'review'
 
-class CreateView(CreateView):
+class CommentCreateView(CreateView):
     model =Post
     form_class = PostForm
     template_name = 'create_post.html'
@@ -77,12 +77,12 @@ class CreateView(CreateView):
         return super().form_valid(form)
     
 
-class ListView(ListView):
+class CommentListView(ListView):
     model = Post
     template_name = 'posts.html'
     context_object_name = 'reviews'
 
-class UpdateComment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class CommentUpdateComment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm
     template_name = 'update_comments.html'
@@ -92,7 +92,7 @@ class UpdateComment(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return review.user == self.request.user
 
 
-class DetailComment(DetailView):
+class CommentDetailComment(DetailView):
     model = Comment
     template_name = 'detail_comments.html'
     
@@ -102,7 +102,7 @@ class DetailComment(DetailView):
         context['comments']= self.object.comments.all()
         return context 
 
-class CreateComment(CreateView):
+class CommentCreateComment(CreateView):
     model =Comment
     form_class = CommentForm
     template_name = 'create_comments.html'
@@ -111,7 +111,7 @@ class CreateComment(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class ListComment(ListView):
+class CommentListComment(ListView):
     model = Comment
     template_name = 'list_comments.html'
     context_object_name = 'reviews'
