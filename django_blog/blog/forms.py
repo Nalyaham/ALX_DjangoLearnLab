@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import Profile, Post, Comment
 from django import forms 
+from taggit.forms import TagWidget, TagField
 
 #Create your forms here
 class ProfileForm(forms.ModelForm):
@@ -14,10 +15,11 @@ class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True) #This estends UserCreationForm to include email
 
 class PostForm(forms.ModelForm):
+    tags = TagField(widget=TagWidget(), required=False)
     class Meta:
         model = Post
         fields = ['published_date', 'content', 'author', 'title','tags']
-        Tagwidgets = { 'tags': forms.CheckboxSelectMultiple,}
+        widgets = { 'tags': forms.CheckboxSelectMultiple,}
     
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
