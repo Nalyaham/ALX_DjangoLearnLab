@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['published_date', 'content', 'author', 'title','tags']
-        widgets = { 'tags': forms.CheckboxSelectMultiple,}
+        Tagwidgets = { 'tags': forms.CheckboxSelectMultiple,}
     
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
