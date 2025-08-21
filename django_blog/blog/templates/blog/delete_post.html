@@ -6,4 +6,10 @@
 	{%csrf_token%}
 	{{ PostForm.as_p }}
 </form>
+<p>Tags:</p>
+<ul>
+    {% for tag in post.tags.all %}
+        <li><a href="{% url 'tag_posts' tag.name %}">{{ tag.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}

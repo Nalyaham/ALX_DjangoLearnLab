@@ -11,6 +11,7 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 # Create your views here.
 def RegisterView(request):
@@ -115,3 +116,18 @@ class CommentListComment(ListView):
     model = Comment
     template_name = 'list_comments.html'
     context_object_name = 'reviews'
+
+def search(request):
+    query = request.GET.get('q')
+
+    q = Q()
+
+    if query:
+        q &= (Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query))
+
+    posts = Post.objects.filter(q).distinct()
+    return render(request, 'search_results.html', {'posts': posts})
+
+def tag_posts(request, tag_name):
+    posts = Post.objects.filter(tags=tag_name)
+    return render(request, 'tag_posts.html', {'posts': posts, 'tags': tag_name})

@@ -12,4 +12,10 @@
       <p>No posts yet.</p>
     {% endfor %}
   </ul>
+  <p>Tags:</p>
+<ul>
+    {% for tag in post.tags.all %}
+        <li><a href="{% url 'tag_posts' tag.name %}">{{ tag.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}
