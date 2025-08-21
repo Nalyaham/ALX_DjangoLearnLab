@@ -117,7 +117,7 @@ class CommentListComment(ListView):
     template_name = 'list_comments.html'
     context_object_name = 'reviews'
 
-def search(request):
+def PostByTagListView(request):
     query = request.GET.get('q')
 
     q = Q()
@@ -130,4 +130,4 @@ def search(request):
 
 def tag_posts(request, tag_name):
     posts = Post.objects.filter(tags=tag_name)
-    return render(request, 'tag_posts.html', {'posts': posts, 'tags': tag_name})
+    return render(request, 'detail_post.html', {'posts': posts, 'tags': tag_name})
