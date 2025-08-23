@@ -7,8 +7,7 @@ from .serializers import CustomUserSerializer, LoginSerializer, UserSerializer
 from rest_framework.authtoken.models import Token
 from .models import CustomUser 
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 
 # Create your views here.
 class RegisterView(APIView):
@@ -51,7 +50,7 @@ class TokenView(ObtainAuthToken):
 class follow_user(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         try:
@@ -66,7 +65,7 @@ class follow_user(generics.GenericAPIView):
 class unfollow_user(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
         try:
