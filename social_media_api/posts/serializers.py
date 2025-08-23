@@ -12,8 +12,3 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:       
         model = Comment       
         fields = [ 'Post' , 'content', 'User', 'created_date', 'name', 'posts']
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'username', 'email', 'password', 'bio', 'profile_picture', 'following')
