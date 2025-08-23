@@ -36,4 +36,4 @@ class feed(generics.ListAPIView):
 
     def get_queryset(self):
         following_users = self.request.user.following.all()
-        return Post.objects.filter(user__in=following_users)
+        return Post.objects.filter(author__in=following_users).order_by
