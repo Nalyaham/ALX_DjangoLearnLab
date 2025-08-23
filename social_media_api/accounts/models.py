@@ -6,4 +6,5 @@ from django.db import models
 class CustomUser(AbstractUser):
     bio = models.TextField(max_length=200)    
     profile_picture = models.ImageField
-    followers = models.ManyToManyField('self', symmetrical=False, related_name ='following')
+    followers = models.ManyToManyField('self', symmetrical=False, related_name='user_followers')
+    following = models.ManyToManyField('self', symmetrical=False, related_name='following_users')
