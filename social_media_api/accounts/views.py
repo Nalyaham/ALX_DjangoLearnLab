@@ -7,7 +7,9 @@ from .serializers import CustomUserSerializer, LoginSerializer, UserSerializer
 from rest_framework.authtoken.models import Token
 from .models import CustomUser 
 from rest_framework.response import Response
-from rest_framework import generics, status, permissions
+from rest_framework import generics, status, permissions, filters
+from posts.serializers import PostSerializer
+from posts.models import Post
 
 # Create your views here.
 class RegisterView(APIView):
@@ -78,3 +80,14 @@ class unfollow_user(generics.GenericAPIView):
             return Response({"message": "User unfollowed successfully"}, status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist:
             return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class feed(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
+    def get_queryset(self):
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(user__in=following_users)
