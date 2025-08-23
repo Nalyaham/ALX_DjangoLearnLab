@@ -4,6 +4,7 @@ from .models import  Post
 from rest_framework import viewsets
 from .models import Post, Comment 
 from .serializers import PostSerializer, CommentSerializer
+from rest_framework import generics, status, permissions, filters
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -24,3 +25,15 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsOwnerOrReadOnly, permissions.IsAuthenticated]
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
+
+
+class feed(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['created_at']
+    ordering = ['-created_at']
+
+    def get_queryset(self):
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(user__in=following_users)
